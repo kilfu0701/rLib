@@ -16,7 +16,8 @@
  *      MIT
  */
 var ss = require('sdk/simple-storage');
-var settings = require('./settings.js');
+var logger = require('./logger.js').logger;
+var settings = require('./settings.js').settings;
 var lg = new logger({debug_mode: settings.debug.mode, prefix: '[LS]'});
 
 function getData(key) {
