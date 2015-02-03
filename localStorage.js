@@ -16,20 +16,30 @@
  *      MIT
  */
 var ss = require('sdk/simple-storage');
+var settings = require('./settings.js');
+var lg = new logger({debug_mode: settings.debug.mode, prefix: '[LS]'});
 
 function getData(key) {
+    lg.log('rLib/localStorage::getData =', key, ss.storage[key]);
+
     return ss.storage[key];
 };
 
 function setData(key, val) {
+    lg.log('rLib/localStorage::setData =', key, val);
+
     ss.storage[key] = val;
 };
 
 function deleteData(key) {
+    lg.log('rLib/localStorage::deleteData =', key);
+
     delete ss.storage[key];
 };
 
 function updateData(key, val) {
+    lg.log('rLib/localStorage::updateData =', key, val);
+
     ss.storage[key] = val;
 };
 
