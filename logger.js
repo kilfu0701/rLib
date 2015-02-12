@@ -17,11 +17,20 @@
  * @license
  *      MIT
  */
+// import rLib deps
+var fileIO = undefined;
+if(typeof require !== 'undefined') {
+    fileIO = require('./fileIO.js').fileIO;
+}
+
+// logger Class
 var logger = function(options) {
     // merge options.
     var default_options = {
         debug_mode: true,
-        prefix: '[Default]'
+        prefix: '[Default]',
+        toFile: false,
+        toFilename: 'test.log'
     };
 
     this.options = options || {};
@@ -30,13 +39,23 @@ var logger = function(options) {
             this.options[k] = default_options[k];
         }
     }
+
+    this.io = undefined;
+    if(this.options.toFile) {
+        this.io = new fileIO({
+            dir: 'TmpD',
+            filename: this.options.toFilename,
+            mode: 'w'
+        }).open();
+    }
 };
 
 logger.prototype.log = function() {
     if(this.options.debug_mode) {
         var r = Array.prototype.slice.call(arguments);
         r.unshift(this.options.prefix);
-        console.log.apply(console, r);
+        //console.log.apply(console, r);
+        this._output('log', r);
     }
 };
 
@@ -44,7 +63,8 @@ logger.prototype.info = function() {
     if(this.options.debug_mode) {
         var r = Array.prototype.slice.call(arguments);
         r.unshift(this.options.prefix);
-        console.info.apply(console, r);
+        //console.info.apply(console, r);
+        this._output('info', r);
     }
 };
 
@@ -52,7 +72,8 @@ logger.prototype.warn = function() {
     if(this.options.debug_mode) {
         var r = Array.prototype.slice.call(arguments);
         r.unshift(this.options.prefix);
-        console.warn.apply(console, r);
+        //console.warn.apply(console, r);
+        this._output('warn', r);
     }
 };
 
@@ -60,10 +81,26 @@ logger.prototype.error = function() {
     if(this.options.debug_mode) {
         var r = Array.prototype.slice.call(arguments);
         r.unshift(this.options.prefix);
-        console.error.apply(console, r);
+        //console.error.apply(console, r);
+        this._output('error', r);
     }
 };
 
+logger.prototype._output = function(x, ret) {
+    if(this.options.toFile) {
+        var arr = [];
+        arr.push('[' + x.toUpperCase() + ']\t');
+
+        for(var i in ret) {
+            var _str = (typeof ret[i] === 'object') ? JSON.stringify(ret[i]) : ret[i];
+            arr.push(_str);
+        }
+
+        this.io.write(arr.join(' ') + '\n');
+    } else if(this.options.debug_mode) {
+        console[x].apply(console, ret);
+    }
+};
 
 // for FF module
 if(typeof exports !== 'undefined') {

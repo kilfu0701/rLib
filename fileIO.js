@@ -29,6 +29,7 @@ const file = require('sdk/io/file');
 
 // import rLib deps
 var settings = require('./settings.js').settings;
+/*
 var logger = require('./logger.js').logger;
 
 // init vars
@@ -36,7 +37,7 @@ var lg = new logger({
     debug_mode: settings.debug.mode,
     prefix: '[IO]'
 });
-
+*/
 
 // fileIO Class
 var fileIO = function(options) {
@@ -73,13 +74,13 @@ fileIO.prototype.open = function() {
     this.filename = path.join(pathFor(this.options.dir), this.options.filename);
     this.worker = file.open(this.filename, this.options.mode);
 
-    lg.log('filename =', this.filename);
+    console.log('filename =', this.filename);
 
     return this;
 };
 
 fileIO.prototype.write = function(str) {
-    lg.log('write', str);
+    console.log('write', str);
 
     if(this.worker) {
         this.worker.write(str);
@@ -87,7 +88,7 @@ fileIO.prototype.write = function(str) {
 };
 
 fileIO.prototype.close = function() {
-    lg.log('close');
+    console.log('close');
 
     if(this.worker) {
         this.worker.close();
@@ -97,7 +98,7 @@ fileIO.prototype.close = function() {
 };
 
 fileIO.prototype.read = function() {
-    lg.log('read');
+    console.log('read');
 
     var str = this.worker.read();
 
