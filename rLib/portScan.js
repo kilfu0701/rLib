@@ -77,12 +77,12 @@ function autoScan(cb) {
                                 
                                 cb(response.json);
                             } else {
-                                lg.log('autoScan() resp format not correct');
+                                //lg.log('autoScan() resp format not correct');
                             }
                         }
                     }
                 },
-                timeout: 100
+                timeout: 1000
             }).get();
 
             current_port++;

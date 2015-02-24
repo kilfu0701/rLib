@@ -14,7 +14,7 @@
  *     </html>
  *
  *  Step 2: Include lib in 'main.js'
- *
+ *  
  *      var wssObject = require('rLib/wssObject').wssObject;
  *
  */

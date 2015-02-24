@@ -39,7 +39,7 @@ var logger = function(options) {
             this.options[k] = default_options[k];
         }
     }
-
+console.log('???????', this.options);
     this.io = undefined;
     if(this.options.toFile) {
         this.io = new fileIO({

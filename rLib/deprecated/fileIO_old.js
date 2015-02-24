@@ -22,9 +22,24 @@
  *      MIT
  */
 
-const {Cc, Ci, Cu, components} = require("chrome");
-Cu.import("resource://gre/modules/NetUtil.jsm");
-Cu.import("resource://gre/modules/FileUtils.jsm");
+// import addon sdk
+const { pathFor } = require('sdk/system');
+const path = require('sdk/fs/path');
+const file = require('sdk/io/file');
+//var timers = require('sdk/timers');
+
+
+// import rLib deps
+//var settings = require('./settings.js').settings;
+/*
+var logger = require('./logger.js').logger;
+
+// init vars
+var lg = new logger({
+    debug_mode: settings.debug.mode,
+    prefix: '[IO]'
+});
+*/
 
 // fileIO Class
 var fileIO = function(options) {
@@ -36,7 +51,8 @@ var fileIO = function(options) {
 
     this.isOpened = false;
     this.filename = '';
-    this.nsIFile = undefined; //FileUtils.getFile("TmpD", ["ttt.txt"]);
+    this.worker = undefined;
+    this._queue = [];
 
     // merge options.
     var default_options = {
@@ -54,49 +70,39 @@ var fileIO = function(options) {
         }
     }
 
-
-    this.permissions = {
-        'r': 0x01,
-        'w': 0x02,
-        'w+': 0x02 | 0x20, // it will truncate file
-        'a': 0x02 | 0x10,
-    };
-
     return this;
 };
 
 fileIO.prototype.open = function() {
-    this.nsIFile = FileUtils.getFile(this.options.dir, [this.options.filename]);
+    this.filename = path.join(pathFor(this.options.dir), this.options.filename);
+    this.worker = file.open(this.filename, this.options.mode);
 
-    var foStream = Cc["@mozilla.org/network/file-output-stream;1"].
-                   createInstance(Ci.nsIFileOutputStream);
-
-    // https://developer.mozilla.org/en-US/docs/PR_Open#Parameters
-    var mode = this.permissions[this.options.mode]; 
-
-    if(!this.nsIFile.exists()) {
-        mode |= 0x08;
-    }
-
-    foStream.init(this.nsIFile, mode, 0666, 0);
-
-    this.converter = Cc["@mozilla.org/intl/converter-output-stream;1"].
-                    createInstance(Ci.nsIConverterOutputStream);
-    this.converter.init(foStream, 'UTF-8', 0, 0);
+    console.log('filename =', this.filename);
 
     return this;
 };
 
 fileIO.prototype.write = function(str) {
-    this.converter.writeString(str);
-};
-
-fileIO.prototype.writeln = function(str) {
-    this.write(str + '\r\n');
+    if(this.worker) {
+        this.worker.write(str);
+    }
 };
 
 fileIO.prototype.close = function() {
-    this.converter.close();
+    if(this.worker) {
+        console.log('close');
+        this.worker.close();
+        this.worker = undefined;
+        this.filename = undefined;
+    }
+};
+
+fileIO.prototype.read = function() {
+    console.log('read');
+
+    var str = this.worker.read();
+
+    return str;
 };
 
 
