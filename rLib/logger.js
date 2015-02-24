@@ -86,10 +86,23 @@ logger.prototype.error = function() {
     }
 };
 
+logger.prototype._time = function() {
+    var d = new Date();
+    var str = d.getFullYear() + "/" +
+        ("00" + (d.getMonth() + 1)).slice(-2) + "/" +
+        ("00" + d.getDate()).slice(-2) + " " +
+        ("00" + d.getHours()).slice(-2) + ":" +
+        ("00" + d.getMinutes()).slice(-2) + ":" +
+        ("00" + d.getSeconds()).slice(-2);
+
+    return str;
+};
+
+
 logger.prototype._output = function(x, ret) {
     if(this.options.toFile) {
         var arr = [];
-        arr.push('[' + x.toUpperCase() + ']\t');
+        arr.push('[' + x.toUpperCase() + '] ' + this._time() + '\t');
 
         for(var i in ret) {
             var _str = (typeof ret[i] === 'object') ? JSON.stringify(ret[i]) : ret[i];
