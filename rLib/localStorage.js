@@ -44,8 +44,16 @@ function updateData(key, val) {
     ss.storage[key] = val;
 };
 
+function clear() {
+    for(var k in ss.storage) {
+        delete ss.storage[k];
+    }
+};
+
 
 exports.get = getData;
 exports.set = setData;
 exports.delete = deleteData;
 exports.update = updateData;
+exports.clear = clear;
+exports.$data = ss.storage;

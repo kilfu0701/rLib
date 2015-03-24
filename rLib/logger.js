@@ -39,13 +39,13 @@ var logger = function(options) {
             this.options[k] = default_options[k];
         }
     }
-console.log('???????', this.options);
+
     this.io = undefined;
     if(this.options.toFile) {
         this.io = new fileIO({
             dir: 'TmpD',
             filename: this.options.toFilename,
-            mode: 'w'
+            mode: 'a'
         }).open();
     }
 };
@@ -98,11 +98,10 @@ logger.prototype._time = function() {
     return str;
 };
 
-
 logger.prototype._output = function(x, ret) {
     if(this.options.toFile) {
         var arr = [];
-        arr.push('[' + x.toUpperCase() + '] ' + this._time() + '\t');
+        arr.push('[' + x.toUpperCase() + ']\t' + this._time() + '\t');
 
         for(var i in ret) {
             var _str = (typeof ret[i] === 'object') ? JSON.stringify(ret[i]) : ret[i];

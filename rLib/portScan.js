@@ -51,7 +51,7 @@ function autoScan(cb) {
         if(current_requests < max_requests) {
             current_requests++;
 
-            //if(current_port > port_range.max) {
+            //if(current_port > port_range.max) 
             if(current_port > 49180) {
                 timers.clearTimeout(zt);
                 return ;
