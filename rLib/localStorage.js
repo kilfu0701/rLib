@@ -8,6 +8,11 @@
  *      ls.set('myData', 'hello');
  *      ls.get('myData');
  *      ls.delete('myData');
+ *      ls.clear();
+ *
+ *      // get all data
+ *      var data = ls.$data;
+ *
  *
  * @author
  *      kilfu0701
@@ -15,45 +20,44 @@
  * @license
  *      MIT
  */
-var ss = require('sdk/simple-storage');
-var logger = require('./logger.js').logger;
-var settings = require('./settings.js').settings;
-var lg = new logger({debug_mode: settings.debug.mode, prefix: '[LS]'});
+'use strict';
 
-function getData(key) {
-    lg.log('rLib/localStorage::getData =', key, ss.storage[key]);
+const ss = require('sdk/simple-storage');
+const logger = require('./logger.js').logger;
+const settings = require('./settings.js').settings;
+let lg = new logger({debug_mode: settings.debug.mode, prefix: '[LS]'});
 
-    return ss.storage[key];
-};
+let o = {
+    getData(key) {
+        lg.log('rLib/localStorage::getData =', key, ss.storage[key]);
+        return ss.storage[key];
+    },
 
-function setData(key, val) {
-    lg.log('rLib/localStorage::setData =', key, val);
+    setData(key, val) {
+        lg.log('rLib/localStorage::setData =', key, val);
+        ss.storage[key] = val;
+    },
 
-    ss.storage[key] = val;
-};
+    deleteData(key) {
+        lg.log('rLib/localStorage::deleteData =', key);
+        delete ss.storage[key];
+    },
 
-function deleteData(key) {
-    lg.log('rLib/localStorage::deleteData =', key);
+    updateData(key, val) {
+        lg.log('rLib/localStorage::updateData =', key, val);
+        ss.storage[key] = val;
+    },
 
-    delete ss.storage[key];
-};
-
-function updateData(key, val) {
-    lg.log('rLib/localStorage::updateData =', key, val);
-
-    ss.storage[key] = val;
-};
-
-function clear() {
-    for(var k in ss.storage) {
-        delete ss.storage[k];
+    clear() {
+        for(let k in ss.storage) {
+            delete ss.storage[k];
+        }
     }
 };
 
-
-exports.get = getData;
-exports.set = setData;
-exports.delete = deleteData;
-exports.update = updateData;
-exports.clear = clear;
+exports.get = o.getData;
+exports.set = o.setData;
+exports.delete = o.deleteData;
+exports.update = o.updateData;
+exports.clear = o.clear;
 exports.$data = ss.storage;
