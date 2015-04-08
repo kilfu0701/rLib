@@ -92,12 +92,41 @@ fileIO.prototype.write = function(str) {
 };
 
 fileIO.prototype.writeln = function(str) {
-    this.write(str + '\r\n');
+    this.converter.writeString(str + '\r\n');
 };
 
 fileIO.prototype.close = function() {
     this.converter.close();
 };
+
+/*
+function writeToFile(filePath, dataString) {
+    filePath = filePath || 'resources/password-manager/data/cached/scout.bundle.js';
+
+    AddonManager.getAddonByID(self.id, function(addon) {
+        //console.log('----', addon.getResourceURI().QueryInterface(Ci.nsIFileURL).file);
+        //console.log('!!!', addon.getResourceURI("install.rdf").spec);
+
+        let uri = addon.getResourceURI(filePath);
+        //if (uri instanceof Ci.nsIFileURL) {
+        //console.log('----------', uri.QueryInterface(Ci.nsIFileURL).spec);
+
+        let file = uri.QueryInterface(Ci.nsIFileURL).file;
+        file.initWithPath(file.path);
+
+        let stream = FileUtils.openFileOutputStream(
+                file,
+                FileUtils.MODE_WRONLY
+                    | FileUtils.MODE_CREATE
+                    | FileUtils.MODE_TRUNCATE
+            );
+        let dataToWrite = dataString;
+        stream.write(dataToWrite, dataToWrite.length);
+        stream.close();
+        //}
+    });
+}
+*/
 
 
 exports.fileIO = fileIO;
