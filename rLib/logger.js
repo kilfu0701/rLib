@@ -18,10 +18,9 @@
  *      MIT
  */
 // import rLib deps
-var fileIO = undefined;
-if(typeof require !== 'undefined') {
-    fileIO = require('./fileIO.js').fileIO;
-}
+const { fileIO } = require('./fileIO');
+let { Object } = require('./util/Object');
+
 
 // logger Class
 var logger = function(options) {
@@ -33,12 +32,7 @@ var logger = function(options) {
         toFilename: 'test.log'
     };
 
-    this.options = options || {};
-    for(var k in default_options) {
-        if(typeof(this.options[k]) != typeof(default_options[k])) {
-            this.options[k] = default_options[k];
-        }
-    }
+    this.options = Object.extend(default_options, options);
 
     this.io = undefined;
     if(this.options.toFile) {

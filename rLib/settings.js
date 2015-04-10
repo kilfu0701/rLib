@@ -5,6 +5,4 @@ var settings = {
     }
 };
 
-if(typeof exports !== 'undefined') {
-    exports.settings = settings;
-}
+exports.settings = settings;

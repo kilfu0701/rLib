@@ -19,6 +19,7 @@ Object.extend = function(destination, source) {
     return destination;
 };
 
-console.log('Object.extend =', Object.extend);
 
-exports.Object = Object;
+if(typeof exports !== 'undefined') {
+    exports.Object = Object;
+}

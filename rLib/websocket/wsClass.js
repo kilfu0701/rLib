@@ -40,6 +40,9 @@
  *      });
  *      wsPage.port.on('message', function(message) {   });
  */
+if(typeof require === 'function') {
+    Object = require('./util/Object');
+}
 
 var wsClass = function(options) {
     console.log('[Firefox][WS] options =', options);
@@ -50,12 +53,7 @@ var wsClass = function(options) {
         url: 'wss://localhost'
     };
 
-    this.options = options || {};
-    for(var k in default_options) {
-        if(typeof(this.options[k]) != typeof(default_options[k])) {
-            this.options[k] = default_options[k];
-        }
-    }
+    this.options = Object.extend(default_options, options);
 
     this.ws = undefined;
     this.path = this.options.url + ':' + this.options.port;

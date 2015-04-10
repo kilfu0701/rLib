@@ -28,7 +28,7 @@ let Observer = function(options) {
 }
 
 Observer.prototype.observe = function(subject, topic, data) {
-    return this.options.observeCallback(subject, topic, data, this);
+    return this.options.observeCallback(subject, topic, data);
 };
 
 Observer.prototype.register = function() {

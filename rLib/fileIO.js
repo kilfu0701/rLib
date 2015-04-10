@@ -26,6 +26,8 @@ const {Cc, Ci, Cu, components} = require("chrome");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
+let { Object } = require('./util/Object');
+
 // fileIO Class
 var fileIO = function(options) {
     // https://developer.mozilla.org/en-US/Add-ons/Code_snippets/File_I_O#Getting_files_in_special_directories
@@ -38,7 +40,6 @@ var fileIO = function(options) {
     this.filename = '';
     this.nsIFile = undefined; //FileUtils.getFile("TmpD", ["ttt.txt"]);
 
-    // merge options.
     var default_options = {
         debug_mode: true,
         prefix: '[Default]',
@@ -47,13 +48,7 @@ var fileIO = function(options) {
         filename: 'test.txt'
     };
 
-    this.options = options || {};
-    for(var k in default_options) {
-        if(typeof(this.options[k]) != typeof(default_options[k])) {
-            this.options[k] = default_options[k];
-        }
-    }
-
+    this.options = Object.extend(default_options, options);
 
     this.permissions = {
         'r': 0x01,

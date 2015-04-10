@@ -31,8 +31,9 @@ function writeToFile(filePath, dataString) {
 
 var fileCache = function(options) {
     let default_options = {
-
     };
+
+    this.options = Object.extend(default_options, options);
 };
 
 
