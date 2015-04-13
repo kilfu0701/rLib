@@ -92,8 +92,6 @@ wsClass.prototype.open = function() {
         _this.onClose(e);
     };
 
-    this.ws.send = this.send;
-
 
     return this;
 };
@@ -114,3 +112,12 @@ wsClass.prototype.onError = function(e) {
 wsClass.prototype.onClose = function(e) {
     console.log('[Firefox][WS] onClose', e);
 };
+
+wsClass.prototype.send = function(data) {
+    this.ws.send(data);
+};
+
+
+if(typeof exports !== 'undefined') {
+    exports.wsClass = wsClass;
+}
