@@ -73,7 +73,7 @@ fileIO.prototype.open = function() {
         mode |= 0x08;
     }
 
-    foStream.init(this.nsIFile, mode, 0666, 0);
+    foStream.init(this.nsIFile, mode, 666, 0);
 
     this.converter = Cc["@mozilla.org/intl/converter-output-stream;1"].
                     createInstance(Ci.nsIConverterOutputStream);

@@ -10,7 +10,7 @@ let md5File = (path) => {
     let istream = Cc['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
 
     // open for reading
-    istream.init(f, 0x01, 0444, 0);
+    istream.init(f, 0x01, 444, 0);
 
     let ch = Cc['@mozilla.org/security/hash;1'].createInstance(Ci.nsICryptoHash);
 
@@ -25,8 +25,8 @@ let md5File = (path) => {
     let hash = ch.finish(false);
 
     // convert the binary hash data to a hex string.
-    let s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join('');
-    return s;
+    //let s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join('');
+    //return s;
 };
 
 exports.hashFile = md5File;
