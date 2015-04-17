@@ -20,11 +20,15 @@
   "id": "rLib-kilfu0701",
   "description": "A Firefox AddOn Libraries that make more convenience on development.",
   "devDependencies": {
+    "babelify": "^6.0.2",
     "bower": "^1.4.1",
     "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "gulp-bower": "0.0.10",
+    "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.5.2",
     "gulp-expect-file": "0.0.7",
     "gulp-jshint": "^1.10.0",
     "gulp-replace": "^0.5.3",
@@ -38,6 +42,7 @@
     "gulp-zip": "^3.0.2",
     "libxmljs": "^0.14.0",
     "pretty-data": "^0.40.0",
+    "stringify": "^3.1.0",
     "unzip": "^0.1.11",
     "xml": "^1.0.0",
     "xml-parser": "^1.2.0"

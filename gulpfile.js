@@ -16,9 +16,6 @@ var Config = {
         return string;
     };
 
-
-
-
 var util = require('gulp-util'),
     gulp = require('gulp'),
     clean = require('gulp-clean'),
@@ -31,9 +28,21 @@ var util = require('gulp-util'),
     xeditor = require('gulp-xml-editor'),
     expect = require('gulp-expect-file'),
     libxmljs = require('libxmljs'),
-    gulpsync = require('gulp-sync')(gulp);
+    uglify = require('gulp-uglify'),
+    browserify = require('gulp-browserify'),
+    gulpsync = require('gulp-sync')(gulp),
+    stringify = require('stringify'),
+    babel = require('gulp-babel');
 
 
+var version = util.env['build-version'] || 'new';
+
+// minify *.js
+gulp.task('compress', function() {
+    return gulp.src('rLib/**/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest( __('{{ outputDir }}/' + version) ));
+});
 
 // clean .tmp
 gulp.task('clean', function() {
@@ -41,11 +50,9 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
-
 gulp.task('build-all', function() {
-
+    gulp.start('compress');
 });
-
 
 // Default
 gulp.task('default', gulpsync.sync([
