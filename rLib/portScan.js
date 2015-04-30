@@ -1,8 +1,8 @@
-var Request = require('sdk/request').Request;
-var timers = require('sdk/timers');
-var ls = require('./localStorage.js');
-var logger = require('./logger.js').logger;
-var settings = require('./settings.js').settings;
+let { Request } = require('sdk/request');
+let timers = require('sdk/timers');
+let ls = require('./localStorage');
+const { logger } = require('./logger');
+const { settings } = require('./settings');
 
 var lg = new logger({debug_mode: settings.debug.mode, prefix: '[PS]'});
 

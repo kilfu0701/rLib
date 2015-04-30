@@ -23,8 +23,8 @@
 'use strict';
 
 const ss = require('sdk/simple-storage');
-const logger = require('./logger.js').logger;
-const settings = require('./settings.js').settings;
+const { logger } = require('./logger');
+const { settings } = require('./settings');
 let lg = new logger({debug_mode: settings.debug.mode, prefix: '[LS]'});
 
 let o = {
