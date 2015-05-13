@@ -3,7 +3,18 @@
  *
  *
  * @usage
+ *      var csp = new CSP();
+ *      csp.setOptions({
+ *          pattern: ["'self'", 'resource://*', 'https://localhost:*', 'https://127.0.0.1:*', 'https://www.facebook.com/*'],
+ *          allowUnsafe: true
+ *      });
  *
+ *      // Free-up
+ *      exports.onUnload = (reason) => {
+ *          if(typeof csp !== 'undefined') {
+ *              csp.remove();
+ *          }
+ *      }
  *
  * @author
  *      kilfu0701
@@ -85,6 +96,10 @@ CSP.prototype._observeCallback = function(subject, topic, data) {
 
 };
 
-
+// Must release if addon be disable/uninstall.
+CSP.prototype.remove = function() {
+    if(this.Obs && typeof this.Obs.unregister === 'function')
+        this.Obs.unregister();
+};
 
 exports.CSP = CSP;
