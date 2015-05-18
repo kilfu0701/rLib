@@ -1,0 +1,1 @@
+"use strict";Object.extend=function(t,e){for(var r in e)e[r]&&e[r].constructor&&e[r].constructor===Object?(t[r]=t[r]||{},arguments.callee(t[r],e[r])):t[r]=e[r];return t},"undefined"!=typeof exports&&(exports.Object=Object);

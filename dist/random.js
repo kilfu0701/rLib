@@ -1,0 +1,1 @@
+"use strict";function randint(){}exports.randint=randint;
