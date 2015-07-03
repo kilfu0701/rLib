@@ -82,11 +82,15 @@ function autoScan(cb) {
                         if(response.json) {
                             lg.log('[autoScan] response.json =', response.json);
 
-                            if(response.json.service === 'DP_TOWER' && response.json.port_number) {
+                            if(typeof response.returncode.toString === 'function'
+                                && response.returncode.toString() === '0'
+                                && response.json.service === 'DP_TOWER'
+                                && response.json.port_number
+                            ) {
                                 finished = true;
                                 // write into localStorage
                                 ls.set('port_number', response.json.port_number);
-                                
+
                                 cb(response.json);
                             } else {
                                 //lg.log('autoScan() resp format not correct');
