@@ -82,8 +82,7 @@ function autoScan(cb) {
                         if(response.json) {
                             lg.log('[autoScan] response.json =', response.json);
 
-                            if(typeof response.returncode.toString === 'function'
-                                && response.returncode.toString() === '0'
+                            if(response.json.returncode === '0'
                                 && response.json.service === 'DP_TOWER'
                                 && response.json.port_number
                             ) {
