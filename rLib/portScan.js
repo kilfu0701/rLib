@@ -8,7 +8,7 @@ var lg = new logger({debug_mode: settings.debug.mode, prefix: '[PS]'});
 
 var port_range = {
     min: 49152,
-    max: 49162
+    max: 49202
 };
 var previous_port = {
     https: 0,
@@ -18,6 +18,7 @@ var max_requests = 1000;
 var current_requests = 0;
 var finished = false;
 var timeForReScan = 30 * 1000;
+var counter = 0;
 
 function scan(url, cb) {
     url = url || 'https://localhost:49155/getTowerInfo?_=';
@@ -33,7 +34,7 @@ function scan(url, cb) {
                 cb(response);
             }
         },
-        timeout: 30
+        timeout: 3000
     }).get();
 };
 
@@ -63,6 +64,8 @@ function autoScan(cb) {
 
                 if(!finished) {
                     lg.log('[autoScan] wait ', timeForReScan / 1000, ' sec for next round ...');
+                    counter++;
+                    _fullScanCountCB(counter);
                     timers.setTimeout(function(){ autoScan(cb); }, timeForReScan);
                 }
 
@@ -87,9 +90,10 @@ function autoScan(cb) {
                                 && response.json.port_number
                             ) {
                                 finished = true;
+                                counter = 0;
                                 // write into localStorage
                                 ls.set('port_number', response.json.port_number);
-
+                                
                                 cb(response.json);
                             } else {
                                 //lg.log('autoScan() resp format not correct');
@@ -104,13 +108,19 @@ function autoScan(cb) {
         } else {
             lg.log('[autoScan] max req reach...');
         }
-    }, 5);
-};
+    }, 20);
+}
 
 function setTimeForReScan(t) {
     timeForReScan = t;
-};
+}
+
+var _fullScanCountCB = function(i) {};
+function fullScanCountCB(func) {
+    _fullScanCountCB = func;
+}
 
 exports.scan = scan;
 exports.autoScan = autoScan;
 exports.setTimeForReScan = setTimeForReScan;
+exports.fullScanCountCB = fullScanCountCB;
